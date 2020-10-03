@@ -1,0 +1,78 @@
+<div class="container">
+	<p></p>
+	<h1>Pacientes</h1>
+	 	
+	<p></p>
+</div>
+
+
+<form class="container" ng-submit="crearPaciente()">
+
+	<div class="form-group table-responsive">
+		<table class="table">
+		<tbody>
+			<tr>
+				<td class="col-md-2">
+					<label for="nombre">Nombre:</label>
+				</td>
+				<td>
+					<input type="text" id="nombre" name="nombre" ng-model="pacientesForm.nombre" class="form-control" />
+				</td>
+			</tr>
+			<tr>
+				<td class="col-md-2">
+					<label for="fechaNac">Fecha de Nacimiento:</label>
+				</td>
+				<td>
+				<input type="text" name="date" id="date" ng-model="pacientesForm.fechaNacimiento" class="form-control" >
+				</td>
+			</tr>
+        	<tr>
+				<td class="col-md-2">
+					<label for="plan">Plan Nutricional:</label>
+				</td>
+				<td>
+					<input type="text" id="plan" name="plan"  ng-model="pacientesForm.planNutricional" class="form-control" />
+				</td>
+			</tr>
+			<tr>
+				<td class="col-md-2">
+					<label for="correo">Correo:</label>
+				</td>
+				<td>
+					<input id="correo" name="correo" ng-model="pacientesForm.correo" class="form-control" />
+				</td>
+			</tr>
+			<tr>
+               <td colspan="col-md-2">
+                  <input type="submit" value="Crear" class="btn btn-primary" />
+               </td>
+                <td colspan="col-md-2">
+                 <a  ng-click="clearForm()" class="btn btn-primary">Limpiar</a>
+               </td>
+            </tr>
+		</tbody>
+        </table>
+	</div>		
+</form>
+
+<div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Paciente</th>
+                        <th>Plan Nutricional</th>
+                        <th>Ultimo Control</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="paciente in pacientes" ng-click="seleccionar(paciente)">
+                    <td>{{paciente.nombre}}</td>
+                    <td>{{paciente.planNutricional}}</td>
+                    <td>Fecha Ultimo Control</td>
+                    <td><a  ng-click="deletePaciente(paciente)" class="btn btn-primary">Eliminar</a></td>
+                </tr>
+                </tbody>
+            </table>
+</div>
