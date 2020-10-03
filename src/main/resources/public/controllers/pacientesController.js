@@ -1,6 +1,9 @@
 app.controller('fController', function($scope, $http) {
 
  	$scope.pacientes = [];
+ 	$scope.BuscPacientes = [];
+ 	$scope.mensajeBusqueda="";
+ 	$scope.pacFiltro="";
  	
     $scope.pacientesForm = {
         idPaciente: 0,
@@ -19,6 +22,7 @@ app.controller('fController', function($scope, $http) {
         }).then(
             function(res) { // success
                 $scope.pacientes = res.data;
+                $scope.BuscPacientes = $scope.pacientes;
             },
             function(res) { // error
                 console.log("Error: " + res.status + " : " + res.data);
@@ -69,6 +73,29 @@ app.controller('fController', function($scope, $http) {
     	
     }
     
+    $scope.buscarPac = function(pacienteNombre) {
+    	
+    	arreglo=[];
+    	counter=0;
+    	$scope.BuscPacientes = $scope.pacientes;
+    	$scope.mensajeBusqueda="";
+    
+    	$scope.BuscPacientes.forEach(pac => {
+    	
+    		if(pac.nombre.toLowerCase().includes(pacienteNombre.toLowerCase())){
+    			arreglo[counter]=pac;
+    			counter++;
+    		}
+    		
+    	});
+    	
+    	if(arreglo.length > 0 ){
+    		$scope.BuscPacientes = arreglo;
+    	}else{
+    		$scope.mensajeBusqueda="No se encontraron pacientes";
+    	}
+    	
+    }
     
      $scope.seleccionar = function(paciente) {
     

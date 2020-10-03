@@ -56,23 +56,40 @@
 	</div>		
 </form>
 
-<div class="table-responsive">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Paciente</th>
-                        <th>Plan Nutricional</th>
-                        <th>Ultimo Control</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="paciente in pacientes" ng-click="seleccionar(paciente)">
+<div class="card-body">
+
+	<div class="row">
+   		<div class="col-md-2">Busqueda:</div>
+         <div class="col-md-2">
+         	<input type="text" ng-model="pacFiltro" />
+       	 </div>
+       	 <div class="col-md-2">
+       	 	<a ng-click="buscarPac(pacFiltro)" class="btn btn-primary">Buscar</a>
+       	 </div>
+       	 <div class="col-md-2">
+       	 	{{mensajeBusqueda}}
+       	 </div>
+	</div>
+
+	<div class="table-responsive">
+		<table class="table">
+        	<thead>
+            	<tr>
+                	<th>Paciente</th>
+                    <th>Plan Nutricional</th>
+                    <th>Ultimo Control</th>
+                    <th></th>
+				</tr>
+			</thead>
+			<tbody>
+            	<tr ng-repeat="paciente in BuscPacientes" ng-click="seleccionar(paciente)">
                     <td>{{paciente.nombre}}</td>
                     <td>{{paciente.planNutricional}}</td>
                     <td>Fecha Ultimo Control</td>
                     <td><a  ng-click="deletePaciente(paciente)" class="btn btn-primary">Eliminar</a></td>
                 </tr>
-                </tbody>
-            </table>
-</div>
+			</tbody>
+		</table>
+	</div>
+
+</div>	
