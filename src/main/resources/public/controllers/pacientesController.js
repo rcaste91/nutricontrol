@@ -121,8 +121,7 @@ app.controller('fController', function($scope, $http) {
     	$scope.pacientesForm.fechaNacimiento = fecha_nu;
     	
     };
-    
-    
+     
     function _clearForm(){
 		$scope.pacientesForm = {
         idPaciente: 0,

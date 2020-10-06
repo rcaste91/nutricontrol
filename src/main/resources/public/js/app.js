@@ -17,6 +17,11 @@ controller : 'fController'
 templateUrl : 'views/comida.html',
 controller : 'cController'
 })
+
+.when('/controles/:id', {
+templateUrl : 'views/control.html',
+controller : 'coController'
+})
  
 .otherwise({redirectTo: '/'});
 });
