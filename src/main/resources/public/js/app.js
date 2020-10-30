@@ -18,6 +18,11 @@ templateUrl : 'views/comida.html',
 controller : 'cController'
 })
 
+.when('/controles', {
+templateUrl : 'views/control.html',
+controller : 'coController'
+})
+
 .when('/controles/:id', {
 templateUrl : 'views/control.html',
 controller : 'coController'

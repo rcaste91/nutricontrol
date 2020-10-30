@@ -2,11 +2,14 @@ package com.rcaste.nutricontrol.controllers;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.ws.rs.QueryParam;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -90,7 +93,7 @@ public class PacienteController {
     	return repository.saveAndFlush(p);
     }
 
-    @RequestMapping(value = "/pacientes/{idPaciente}", 
+    @RequestMapping(value = "pacientes/{idPaciente}", 
             method = RequestMethod.DELETE, 
             produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseBody
@@ -99,5 +102,23 @@ public class PacienteController {
 	 repository.deleteById(pacId);
 	 
     }
+    
+    @RequestMapping(value = "pacienteBusq", 
+            method = RequestMethod.GET, 
+            produces = { MediaType.APPLICATION_JSON_VALUE })
+    @ResponseBody
+    public List<Paciente> searchPaciente(@QueryParam("pac") String pac){
+    	
+    	List<Paciente> pacientesEncontrados = new ArrayList<Paciente>();
+    	
+    	if (pac != null && !pac.isEmpty()) {
+    		
+    		pacientesEncontrados = repository.findByPacienteNombre(pac.toUpperCase());
+    		
+    	}
+    	
+    	return pacientesEncontrados;
+    }
+    
 
 }

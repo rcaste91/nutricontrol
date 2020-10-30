@@ -36,6 +36,10 @@ public class Paciente {
 	@Column(name = "paciente_fecha_nacimiento")
 	private Date fechaNacimiento;
 	
+	@OneToMany(mappedBy = "paciente")
+	@JsonIgnore
+	private List<Control> controles;
+	
 	public Paciente() {
 		
 	}
@@ -78,6 +82,14 @@ public class Paciente {
 
 	public void setFechaNacimiento(Date fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
+	}
+
+	public List<Control> getControles() {
+		return controles;
+	}
+
+	public void setControles(List<Control> controles) {
+		this.controles = controles;
 	}
 
 	

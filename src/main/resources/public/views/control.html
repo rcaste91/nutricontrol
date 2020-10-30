@@ -4,13 +4,43 @@
 	<p></p>
 </div>
 
-<div class="container card-body">
+<div class="container">
+	<p></p>
+	<p>Busqueda de paciente</p>
+	<input type="text" id="pacNombre" name="pacNombre" placeholder="Nombre de paciente" ng-model="busquedaNombre"/>
+	<a  ng-click="buscarPac()" class="btn btn-primary">Buscar</a>
+</div>
+
+<div class="container" ng-if="pacienteEncontrado">
+<p ng-if="pacienteNoEnc"> No existen resultados</p>
+<h2>Resultado de Busqueda</h2>
+	<div class="table-responsive">
+		<table class="table">
+        	<thead>
+            	<tr>
+                    <th>Paciente</th>
+                    <th>Plan Nutricional</th>
+                    <th></th>
+				</tr>
+			</thead>
+			<tbody>
+            	<tr ng-repeat="paciente in pacientesS">
+            		<td>{{paciente.nombre}}</td>
+                    <td>{{paciente.planNutricional}}</td>
+            		<td><button ng-click="cargarPac(paciente)" class="btn btn-primary">Seleccionar</button></td>
+            	</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<div class="container card-body" ng-if="pacienteCargado">
 	<div class="row">
 		<div class="col-md-auto">
 			<h3>Nombre:</h3>
 		</div>
 		<div class="col-md-auto">
-			<h3>Nombre</h3>
+			<h3>{{pacienteNombre}}</h3>
 		</div>
 	</div>
 	<div class="row">
@@ -18,17 +48,19 @@
 			<h3>Plan:</h3>
 		</div>
 		<div class="col-md-auto">
-			<h3>Plan</h3>
+			<h3>{{pacientePlan}}</h3>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-md-auto">
-			<a  class="btn btn-primary">Nuevo Control</a>
+			<a  class="btn btn-primary" ng-click="nuevoControl()" >Nuevo Control</a>
 		</div>
 	</div>
 </div>
 
-<div class="container card-body">
+<div class="container card-body" ng-if="pacienteUnControl">
+	<h4>Fecha: {{fechaHoy | date:'dd/MM/yyyy'}}</h4>
+	
 	<h3>Evaluacion Nutricional Peso</h3>
 	<div class="form-group table-responsive">
 		<table class="table">
@@ -38,19 +70,19 @@
 						<label for="peso">Peso:</label>
 					</td>
 					<td class="col-md-auto">
-						<input type="text" id="peso" name="peso" class="form-control" />
+						<input type="text" id="peso" name="peso" ng-model=controlForm.pesoTotal class="form-control"  />
 					</td>
 					<td class="col-md-auto">
-						+1
+						{{calculo.pesoTotal | number : 2}}
 					</td>
 					<td class="col-md-auto">
 						<label for="edad">Edad Metabolica:</label>
 					</td>
 					<td class="col-md-auto">
-						<input type="text" id="edad" name="edad" class="form-control" />
+						<input type="text" id="edad" name="edad" ng-model="controlForm.edadMetabolica" class="form-control" />
 					</td>
 					<td class="col-md-auto">
-						+1
+						{{calculo.edadMetabolica | number : 2}}
 					</td>
 				</tr>
 				<tr>
@@ -58,19 +90,19 @@
 						<label for="grasa">Grasa Corporal:</label>
 					</td>
 					<td class="col-md-auto">
-						<input type="text" id="grasa" name="grasa" class="form-control" />
+						<input type="text" id="grasa" name="grasa" ng-model="controlForm.grasa" class="form-control" />
 					</td>
 					<td class="col-md-auto">
-						+1
+						{{calculo.grasa | number : 2}}
 					</td>
 					<td class="col-md-auto">
 						<label for="grasav">Grasa Visceral:</label>
 					</td>
 					<td class="col-md-auto">
-						<input type="text" id="grasav" name="grasav" class="form-control" />
+						<input type="text" id="grasav" name="grasav" ng-model="controlForm.grasaVisc" class="form-control" />
 					</td>
 					<td class="col-md-auto">
-						+1
+						{{calculo.grasaVisc | number : 2}}
 					</td>
 				</tr>
 				<tr>
@@ -78,19 +110,19 @@
 						<label for="agua">% Agua:</label>
 					</td>
 					<td class="col-md-auto">
-						<input type="text" id="agua" name="agua" class="form-control" />
+						<input type="text" id="agua" name="agua" ng-model="controlForm.agua" class="form-control" />
 					</td>
 					<td class="col-md-auto">
-						+1
+						{{calculo.agua | number : 2}}
 					</td>
 					<td class="col-md-auto">
 						<label for="imc">IMC:</label>
 					</td>
 					<td class="col-md-auto">
-						<input type="text" id="imc" name="imc" class="form-control" />
+						<input type="text" id="imc" name="imc" ng-model="controlForm.imc" class="form-control" />
 					</td>
 					<td class="col-md-auto">
-						+1
+						{{calculo.imc | number : 2}}
 					</td>
 				</tr>
 				<tr>
@@ -98,19 +130,19 @@
 						<label for="musculo">Peso Muscular:</label>
 					</td>
 					<td class="col-md-auto">
-						<input type="text" id="musculo" name="musculo" class="form-control" />
+						<input type="text" id="musculo" name="musculo" ng-model="controlForm.masaMuscular" class="form-control" />
 					</td>
 					<td class="col-md-auto">
-						+1
+						{{calculo.masaMuscular | number : 2}}
 					</td>
 					<td class="col-md-auto">
 						<label for="dx">Dx Nutricional:</label>
 					</td>
 					<td class="col-md-auto">
-						<input type="text" id="dx" name="dx" class="form-control" />
+						<input type="text" id="dx" name="dx" ng-model="controlForm.dx" class="form-control" />
 					</td>
 					<td class="col-md-auto">
-						+1
+						{{calculo.dx | number : 2}}
 					</td>
 				</tr>
 			</tbody>
@@ -125,19 +157,19 @@
 						<label for="est">Estomago:</label>
 					</td>
 					<td class="col-md-auto">
-						<input type="text" id="est" name="est" class="form-control" />
+						<input type="text" id="est" name="est" ng-model="controlForm.estomago" class="form-control" />
 					</td>
 					<td class="col-md-auto">
-						+1
+						{{calculo.estomago | number : 2}}
 					</td>
 					<td class="col-md-auto">
 						<label for="pecho">Pecho:</label>
 					</td>
 					<td class="col-md-auto">
-						<input type="text" id="pecho" name="pecho" class="form-control" />
+						<input type="text" id="pecho" name="pecho" ng-model="controlForm.pecho" class="form-control" />
 					</td>
 					<td class="col-md-auto">
-						+1
+						{{calculo.pecho | number : 2}}
 					</td>
 				</tr>
 				<tr>
@@ -145,19 +177,19 @@
 						<label for="cintura">Cintura:</label>
 					</td>
 					<td class="col-md-auto">
-						<input type="text" id="cintura" name="cintura" class="form-control" />
+						<input type="text" id="cintura" name="cintura" ng-model="controlForm.cintura" class="form-control" />
 					</td>
 					<td class="col-md-auto">
-						+1
+						{{calculo.cintura | number : 2}}
 					</td>
 					<td class="col-md-auto">
 						<label for="muslo">Muslo:</label>
 					</td>
 					<td class="col-md-auto">
-						<input type="text" id="muslo" name="muslo" class="form-control" />
+						<input type="text" id="muslo" name="muslo" ng-model="controlForm.muslo" class="form-control" />
 					</td>
 					<td class="col-md-auto">
-						+1
+						{{calculo.muslo | number : 2}}
 					</td>
 				</tr>
 				<tr>
@@ -165,19 +197,19 @@
 						<label for="vientre">Vientre:</label>
 					</td>
 					<td class="col-md-auto">
-						<input type="text" id="vientre" name="vientre" class="form-control" />
+						<input type="text" id="vientre" name="vientre" ng-model="controlForm.vientre" class="form-control" />
 					</td>
 					<td class="col-md-auto">
-						+1
+						{{calculo.vientre | number : 2}}
 					</td>
 					<td class="col-md-auto">
 						<label for="brazo">Brazo:</label>
 					</td>
 					<td class="col-md-auto">
-						<input type="text" id="brazo" name="brazo" class="form-control" />
+						<input type="text" id="brazo" name="brazo" ng-model="controlForm.brazo"  class="form-control" />
 					</td>
 					<td class="col-md-auto">
-						+1
+						{{calculo.brazo | number : 2}}
 					</td>
 				</tr>
 			</tbody>
@@ -185,37 +217,39 @@
 	</div>
 	<h3>Observaciones</h3>
 	<div class="form-group">
-		<textarea id="obser" name="obser" class="form-control" rows="3" >
+		<textarea id="obser" name="obser" class="form-control" ng-model="controlForm.observaciones" rows="3" >
 		</textarea>
 	</div>
 	<h3>Recomendaciones</h3>
 	<div class="form-group">
-		<textarea id="reco" name="reco" class="form-control" rows="3" >
+		<textarea id="reco" name="reco" class="form-control" ng-model="controlForm.comentarios" rows="3" >
 		</textarea>
 	</div>
 	
-	<button class="btn btn-primary">Cerrar</button>
+	<div ng-if="btnGuardar">
+	<button class="btn btn-primary" ng-click="guardarControl()">Guardar</button>
+	</div>
+	
+	<button class="btn btn-primary" ng-click="cancelar()">Cerrar</button>
 </div>
 
-<div class="container">
+<div class="container" ng-if="pacienteCargado">
 <p></p>
 <h2>Controles</h2>
 	<div class="table-responsive">
 		<table class="table">
         	<thead>
             	<tr>
-                	<th>#</th>
                     <th>Fecha</th>
                     <th>Peso</th>
                     <th></th>
 				</tr>
 			</thead>
 			<tbody>
-            	<tr>
-            		<td>1</td>
-            		<td>07/11/1/2020</td>
-            		<td>128 lbs</td>
-            		<td><button class="btn btn-primary">Ver</button></td>
+            	<tr ng-repeat="control in controles">
+            		<td>{{control.fechaControl | date:'dd/MM/yyyy'}}</td>
+            		<td>{{control.pesoTotal}}</td>
+            		<td><button class="btn btn-primary"  ng-click="cargarUnControl(control)">Ver</button></td>
             	</tr>
 			</tbody>
 		</table>
